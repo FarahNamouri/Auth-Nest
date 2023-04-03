@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { List } from './schemas/list.schema';
 import mongoose from 'mongoose';
 import { Query } from 'express-serve-static-core';
+import { User } from 'src/auth/schemas/user.schema';
 
 @Injectable()
 export class ListService {
@@ -30,8 +31,9 @@ export class ListService {
     return lists;
   }
 
-  async create(list: List): Promise<List> {
-    const res = await this.listModel.create(list);
+  async create(list: List, user: User): Promise<List> {
+    const data = Object.assign(list, { user: user._id });
+    const res = await this.listModel.create(data);
     return res;
   }
 

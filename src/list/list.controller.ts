@@ -7,12 +7,15 @@ import {
   Post,
   Put,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ListService } from './list.service';
 import { List } from './schemas/list.schema';
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('lists')
 export class ListController {
@@ -24,8 +27,10 @@ export class ListController {
   }
 
   @Post('/new')
-  async createList(@Body() list: CreateListDto): Promise<List> {
-    return this.listService.create(list);
+  // to protect this route :
+  @UseGuards(AuthGuard())
+  async createList(@Body() list: CreateListDto, @Req() req): Promise<List> {
+    return this.listService.create(list, req.user);
   }
 
   @Get(':id')

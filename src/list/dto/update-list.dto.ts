@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsEmpty, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Category } from '../schemas/list.schema';
+import { User } from 'src/auth/schemas/user.schema';
 
 export class UpdateListDto {
   @IsOptional()
@@ -22,4 +23,7 @@ export class UpdateListDto {
   @IsOptional()
   @IsEnum(Category, { message: 'Please enter correct category'})
   readonly category: Category;
+
+  @IsEmpty({  message: "You cannot pass the user id."})
+  readonly user: User
 }

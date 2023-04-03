@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { List } from './schemas/list.schema';
 import mongoose from 'mongoose';
@@ -36,6 +36,10 @@ export class ListService {
   }
 
   async findById(id: string): Promise<List> {
+    const isValidId = mongoose.isValidObjectId(id);
+    if (!isValidId) {
+      throw new BadRequestException('Please enter correct id');
+    }
     const list = await this.listModel.findById(id);
     return list;
   }

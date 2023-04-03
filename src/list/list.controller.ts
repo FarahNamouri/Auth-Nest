@@ -6,19 +6,21 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ListService } from './list.service';
 import { List } from './schemas/list.schema';
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
+import { Query as ExpressQuery } from 'express-serve-static-core';
 
 @Controller('lists')
 export class ListController {
   constructor(private listService: ListService) {}
 
   @Get()
-  async getAllLists(): Promise<List[]> {
-    return this.listService.findAll();
+  async getAllLists(@Query() query: ExpressQuery): Promise<List[]> {
+    return this.listService.findAll(query);
   }
 
   @Post('/new')

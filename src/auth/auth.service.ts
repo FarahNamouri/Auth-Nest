@@ -27,7 +27,6 @@ export class AuthService {
     });
     // generate a token and assign it to the user :
     const token = this.jwtService.sign({ id: user._id });
-
     return { token };
   }
 
@@ -41,9 +40,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password!');
     }
 
-    const isPaswwordMatched = await bcrypt.compare(password, user.password);
+    const isPasswordMatched = await bcrypt.compare(password, user.password);
 
-    if (!isPaswwordMatched) {
+    if (!isPasswordMatched) {
       throw new UnauthorizedException('Invalid email or password!');
     }
 

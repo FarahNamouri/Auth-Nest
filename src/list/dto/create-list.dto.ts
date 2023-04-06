@@ -24,6 +24,6 @@ export class CreateListDto {
   @IsEnum(Category, { message: 'Please enter correct category'})
   readonly category: Category;
 
-  @IsEmpty({  message: "You cannot pass the user id."})
+  @IsEmpty({ message: "You cannot pass the user id."})
   readonly user: User
 }
